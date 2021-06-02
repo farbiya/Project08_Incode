@@ -3,7 +3,7 @@ const Ticket = require('../../schema/schemaTicket.js');
 function create(req, res) {
 	if (!req.body.description || !req.body.responsible || !req.body.priority) {
 		res.status(400).json({
-			"text": "Requête invalide"
+			"text": "Invalid Request"
 		})
 	} else {
 		var ticket = {
@@ -17,7 +17,7 @@ function create(req, res) {
 		_t.save(function (err, ticket) {
 			if (err) {
 				res.status(500).json({
-					"text": "Erreur interne"
+					"text": "Internal Error"
 				})
 			} else {
 				res.redirect(`${ticket.getId()}`);
@@ -27,13 +27,13 @@ function create(req, res) {
 }
 
 function createForm(req, res) {
-	res.status(200).render('ticket/create', {title: 'Créer ticket'});
+	res.status(200).render('ticket/create', {title:'Create ticket'});
 }
 
 function show(req, res) {
 	if (!req.params.id) {
 		res.status(400).json({
-			"text": "Requête invalide"
+			"text": "Invalid Request"
 		})
 	} else {
 		var findTicket = new Promise(function (resolve, reject) {
@@ -51,22 +51,22 @@ function show(req, res) {
 		})
 
 		findTicket.then(function (ticket) {
-			res.status(200).render('ticket/show', {title: `Ticket n°${ticket._id}`, ticket});
+			res.status(200).render('ticket/show', {title:`Ticket no:${ticket._id}`, ticket});
 		}, function (error) {
 			switch (error) {
 				case 500:
 					res.status(500).json({
-						"text": "Erreur interne"
+						"text": "Internal Error"
 					})
 					break;
 				case 200:
 					res.status(200).json({
-						"text": "Le ticket n'existe pas"
+						"text": "The ticket does not exist"
 					})
 					break;
 				default:
 					res.status(500).json({
-						"text": "Erreur interne"
+						"text": "Internal Error"
 					})
 			}
 		})
@@ -76,7 +76,7 @@ function show(req, res) {
 function edit(req, res) {
 	if (!req.params.id) {
 		res.status(400).json({
-			"text": "Requête invalide"
+			"text": "Invalid Request"
 		})
 	} else {
 		var findTicket = new Promise(function (resolve, reject) {
@@ -94,22 +94,22 @@ function edit(req, res) {
 		})
 
 		findTicket.then(function (ticket) {
-			res.status(200).render('ticket/edit', {title: `Modifier ticket n°${ticket._id}`, ticket});
+			res.status(200).render('ticket/edit', {title:`Modify ticket no:${ticket._id}`, ticket});
 		}, function (error) {
 			switch (error) {
 				case 500:
 					res.status(500).json({
-						"text": "Erreur interne"
+						"text": "Internal Error"
 					})
 					break;
 				case 200:
 					res.status(200).json({
-						"text": "Le ticket n'existe pas"
+						"text": "The ticket does not exist"
 					})
 					break;
 				default:
 					res.status(500).json({
-						"text": "Erreur interne"
+						"text": "Internal Error"
 					})
 			}
 		})
@@ -120,7 +120,7 @@ function update(req, res) {
 	console.log(req.body);
 	if (!req.params.id || !req.body.description || !req.body.responsible || !req.body.priority) {
 		res.status(400).json({
-			"text": "Requête invalide"
+			"text": "Invalid Request"
 		})
 	} else {
 		var findTicket = new Promise(function (resolve, reject) {
@@ -145,17 +145,17 @@ function update(req, res) {
 			switch (error) {
 				case 500:
 					res.status(500).json({
-						"text": "Erreur interne"
+						"text": "Internal Error"
 					})
 					break;
 				case 200:
 					res.status(200).json({
-						"text": "Le ticket n'existe pas"
+						"text": "The ticket does not exist"
 					})
 					break;
 				default:
 					res.status(500).json({
-						"text": "Erreur interne"
+						"text": "Internal Error"
 					})
 			}
 		})
@@ -178,22 +178,22 @@ function list(req, res) {
 	})
 
 	findTicket.then(function (tickets) {
-		res.status(200).render('ticket/index', {title: 'Liste des tickets', tickets});
+		res.status(200).render('ticket/index', {title:'Ticket List', tickets});
 	}, function (error) {
 		switch (error) {
 			case 500:
 				res.status(500).json({
-					"text": "Erreur interne"
+					"text": "Internal Error"
 				})
 				break;
 			case 200:
 				res.status(200).json({
-					"text": "Il n'y a pas encore de ticket"
+					"text": "There is no ticket yet"
 				})
 				break;
 			default:
 				res.status(500).json({
-					"text": "Erreur interne"
+					"text": "Internal Error"
 				})
 		}
 	})

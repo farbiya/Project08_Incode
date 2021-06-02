@@ -2,10 +2,10 @@ const User = require('../../schema/schemaUser.js');
 
 function signup(req, res) {
     if (!req.body.email || !req.body.password) {
-        //Le cas où l'email ou bien le password ne serait pas soumit ou nul
+        //The case where the email or the password is not submitted or null
         console.log(req.body);
         res.status(400).json({
-            "text": "Requête invalide"
+            "text": "Invalid request"
         })
     } else {
         var user = {
@@ -33,7 +33,7 @@ function signup(req, res) {
             _u.save(function (err, user) {
                 if (err) {
                     res.status(500).json({
-                        "text": "Erreur interne"
+                        "text": "Internal error"
                     })
                 } else {
                     req.session.token = user.getToken();
@@ -44,17 +44,17 @@ function signup(req, res) {
             switch (error) {
                 case 500:
                     res.status(500).json({
-                        "text": "Erreur interne"
+                        "text": "Internal error"
                     })
                     break;
                 case 200:
                     res.status(200).json({
-                        "text": "L'adresse email existe déjà"
+                        "text": "Email address already exists"
                     })
                     break;
                 default:
                     res.status(500).json({
-                        "text": "Erreur interne"
+                        "text": "Internal error"
                     })
             }
         })
@@ -62,14 +62,14 @@ function signup(req, res) {
 }
 
 function signupForm(req, res) {
-    res.status(200).render('account/signup', {title: 'Inscription'});
+    res.status(200).render('account/signup', {title:'Registration'});
 }
 
 function login(req, res) {
     if (!req.body.email || !req.body.password) {
-        //Le cas où l'email ou bien le password ne serait pas soumit ou nul
+        //The case where the email or the password is not submitted or null
         res.status(400).json({
-            "text": "Requête invalide"
+            "text": "Invalid request"
         })
     } else {
         User.findOne({
@@ -77,12 +77,12 @@ function login(req, res) {
         }, function (err, user) {
             if (err) {
                 res.status(500).json({
-                    "text": "Erreur interne"
+                    "text": "Internal Eror"
                 })
             }
             else if(!user){
                 res.status(401).json({
-                    "text": "L'utilisateur n'existe pas"
+                    "text": "The user does not exist"
                 })
             }
             else {
@@ -92,7 +92,7 @@ function login(req, res) {
                 }
                 else{
                     res.status(401).json({
-                        "text": "Mot de passe incorrect"
+                        "text": "incorrect password"
                     })
                 }
             }
@@ -101,7 +101,7 @@ function login(req, res) {
 }
 
 function loginForm(req, res) {
-    res.status(200).render('account/login', {title: 'Connexion'});
+    res.status(200).render('account/login', {title:'Log In'});
 }
 
 function signout(req, res) {

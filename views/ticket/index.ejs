@@ -4,13 +4,13 @@
     <body>
         <%- include('../shared/navbar', {}) %>
         <div>
-            <h1>Liste des tickets</h1>
+            <h1>Ticket List</h1>
             <table>
                 <thead>
                     <tr>
-                        <th class="idTicket">Tichet ID</th>
-                        <th class="showTicket">Voir Ticket</th>
-                        <th class="editTicket">Editer Ticket</th>
+                        <th class="idTicket">Ticket ID</th>
+                        <th class="showTicket">View Ticket</th>
+                        <th class="editTicket">Edit Ticket</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,8 +18,8 @@
                         <% const ticket = tickets[index] %>
                         <tr key={index}>
                             <td><%= ticket._id %></td>
-                            <td><a href="/ticket/<%= ticket._id %>" class="nav-link">Voir</a></td>
-                            <td><a href="/ticket/<%= ticket._id %>/edit" class="nav-link">Editer</a></td>
+                            <td><a href="/ticket/<%= ticket._id %>" class="nav-link">View</a></td>
+                            <td><a href="/ticket/<%= ticket._id %>/edit" class="nav-link">Edit</a></td>
                         </tr>
                     <% } %>
                 </tbody>
