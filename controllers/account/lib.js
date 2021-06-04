@@ -1,5 +1,5 @@
 const User = require('../../schema/schemaUser.js');
-
+const crypto = require('crypto');
 function signup(req, res) {
     if (!req.body.email || !req.body.password) {
         //The case where the email or the password is not submitted or null
@@ -28,8 +28,10 @@ function signup(req, res) {
             })
         })
 
-        findUser.then(function () {
+        findUser.then( async function () {
             var _u = new User(user);
+            _u.password = await getHashedPassword(user.password);
+            
             _u.save(function (err, user) {
                 if (err) {
                     res.status(500).json({
@@ -65,7 +67,7 @@ function signupForm(req, res) {
     res.status(200).render('account/signup', {title:'Registration'});
 }
 
-function login(req, res) {
+async  function login(req, res) {
     if (!req.body.email || !req.body.password) {
         //The case where the email or the password is not submitted or null
         res.status(400).json({
@@ -74,7 +76,7 @@ function login(req, res) {
     } else {
         User.findOne({
             email: req.body.email
-        }, function (err, user) {
+        }, async  function (err, user) {
             if (err) {
                 res.status(500).json({
                     "text": "Internal Eror"
@@ -86,7 +88,9 @@ function login(req, res) {
                 })
             }
             else {
-                if (user.authenticate(req.body.password)) {
+                hashedPassword = await getHashedPassword(req.body.password)
+                
+                if (user.authenticate(hashedPassword)) {
                     req.session.token = user.getToken();
                     res.redirect('../../ticket/');
                 }
@@ -108,6 +112,12 @@ function signout(req, res) {
     delete req.session.token;
     res.redirect('login');
 }
+
+async function getHashedPassword(password)  {
+    const sha256 = crypto.createHash('sha256');
+    const hash = sha256.update(password).digest('hex');
+    return hash;
+  }
 
 exports.login = login;
 exports.loginForm = loginForm;
