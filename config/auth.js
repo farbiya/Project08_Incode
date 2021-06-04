@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const user = require('../controller/user');
+const user = require('../controller/account/lib');
 exports.verifyUserToken = (req, res, next) => {
     let token = req.headers.authorization;
     if (!token) return res.status(401).send("Access Denied / Unauthorized request");

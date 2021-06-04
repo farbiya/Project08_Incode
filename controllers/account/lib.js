@@ -1,4 +1,6 @@
 const User = require("../../schema/schemaUser.js");
+const util = require("../util/check");
+const jwt = require("jsonwebtoken");
 
 function signup(req, res) {
   if (!req.body.email || !req.body.password) {
@@ -115,8 +117,89 @@ function signout(req, res) {
   res.redirect("login");
 }
 
+exports.homepage = async (req, res) => {
+  Location.find({ isApproved: true })
+    .exec()
+    .then(async (result) => {
+      var isAdmin;
+      var user_id = navbarCheck(req.headers.cookie);
+      if (user_id !== null) {
+        isAdmin = await checkAdmin(user_id);
+      }
+      res.render("account/index", {
+        locations: result,
+        user_id: user_id,
+        isAdmin: isAdmin,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+exports.login = async (req, res) => {
+  var user_id = navbarCheck(req.headers.cookie);
+  res.render("account/login", { user_id: user_id });
+};
+
+exports.signup = async (req, res) => {
+  var user_id = navbarCheck(req.headers.cookie);
+  res.render("account/register", { user_id: user_id });
+};
+
+exports.userPage = async (req, res) => {
+  var user_id = req.params.id;
+  var isAdmin;
+  var user_id_cookies = navbarCheck(req.headers.cookie);
+  if (user_id_cookies !== null) {
+    isAdmin = await checkAdmin(user_id);
+  }
+};
+
+exports.adminPage = async (req, res) => {
+  Location.find()
+    .exec()
+    .then(async (result) => {
+      var user_id = navbarCheck(req.headers.cookie);
+      var isAdmin;
+      if (user_id !== null) {
+        isAdmin = await checkAdmin(user_id);
+      }
+
+      if (isAdmin) {
+        res.render("ticket/adminPage", {
+          locations: result,
+          user_id: user_id,
+          isAdmin: isAdmin,
+        });
+      } else {
+        res.redirect("/");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+};
+
+exports.approveTicket = async (req, res) => {
+  let doc = await Location.findOneAndUpdate(
+    { _id: req.body.id },
+    { isApproved: true }
+  );
+  await doc.save();
+  res.send("done");
+};
+
 exports.login = login;
 exports.loginForm = loginForm;
 exports.signup = signup;
 exports.signupForm = signupForm;
 exports.signout = signout;
+exports.adminPage = adminPage;
+exports.approveTicket = this.approveTicket;
