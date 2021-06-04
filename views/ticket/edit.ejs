@@ -4,7 +4,7 @@
     <body>
         <%- include('../shared/navbar', {}) %>
         <div>
-            <h3>Edit Ticket no:<%= ticket._id %></h3>
+            <h1>Edit Ticket no:<%= ticket._id %></h1>
             <form method="POST" action="/ticket/<%= ticket._id %>/update">
                 <input type="hidden" value="<%= ticket._id %>">
                 <div class="form-group">

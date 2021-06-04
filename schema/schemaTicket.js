@@ -8,7 +8,10 @@ var ticketSchema = mongoose.Schema({
 	description: {
 		type: String,
 		required: true
-	},
+    },
+    user: { type: String, required: false, default: "" },
+    comments: [{user: String,comment:String}],
+   
 	responsible: {
         type: String,
         required: true

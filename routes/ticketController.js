@@ -29,5 +29,6 @@ router.get('/:id', authenticateJWT, ticket.show);
 router.get('/:id/edit', authenticateJWT, ticket.edit);
 router.post('/:id/update', authenticateJWT, ticket.update);
 router.get('/', authenticateJWT, ticket.list);
+router.post('/newComment',authenticateJWT,ticket.newComment);
 
 module.exports = router;

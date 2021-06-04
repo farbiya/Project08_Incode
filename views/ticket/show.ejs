@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="fr">
-    <%- include('../shared/head', {css: ['details', 'navbar']}) %>
+<html lang="eng">
+    <%- include('../shared/head', {css: ['details', 'navbar','login']}) %>
     <body>
         <%- include('../shared/navbar', {}) %>
         <div class="details">
@@ -11,6 +11,76 @@
             <h2>Responsible : <%= ticket.responsible %></h2>
             <h2>Priority : <%= ticket.priority %></h2>
             <h2>Status : <%= ticket.completed ? "Resolved" : "In progress" %></h2>
+            <h2>Created By : <%= ticket.user %></h2>
         </div>
+        <div id="all-comments" class="comments">
+            <h1> Comments </h1>
+             
+              <% if (ticket.comments) {%>
+                <% for (var i=0;i<ticket.comments.length;i++) { %>
+              <div>
+               <q><%- ticket.comments[i].comment %></q> 
+              
+              
+              <span> - <%- ticket.comments[i].user %></span> </a>
+              </div>
+            <% } %>
+              <% } %>
+        </div>
+            
+            
+            <form id="comment-form" class="comments">
+            <div class="form-group">
+              <textarea id="comment" placeholder="Write your comment" rows="1" required></textarea>
+            </div>
+            
+              <div class="form-group">
+                <input  type="submit" class="btn btn-primary"/>
+              
+            </div>
+            </form>
+
+            <script>
+              $(document).ready(function(e) {
+  
+  $("#comment-form").on("submit", function(e) {  
+    e.preventDefault();
+    newComment();
+  });
+  $("#comment").on("keydown", function(e) { 
+    let isEmpty = $("#comment").val().trim() === ""; 
+    if (e.keyCode === 13 && isEmpty) {
+      e.preventDefault();
+    }
+    else if (e.keyCode === 13 && !isEmpty) {
+      e.preventDefault();
+      newComment();
+    }
+     
+  });
+
+  function newComment(){
+  var user_comment = $("#comment").val();
+  $("#comment-form").trigger("reset");
+    var url = "/ticket/newComment";
+    var data = {"_id":"<%-ticket._id%>","comment":user_comment}
+    $.ajax({
+            method: "POST",
+            url: url,
+            data: data
+            })
+        .done(function(response) {
+
+          $("#all-comments").append(`<div >
+               <q>`+response.comment+`</q> 
+               <span></span> 
+              </div>`);
+              window.location.reload()
+            }); 
+            $("#all-comments").animate({ scrollTop: 9999 }, 'slow');
+          
+        }
+        });
+            </script>
     </body>
 </html>

@@ -10,7 +10,8 @@ function create(req, res) {
 			title: req.body.title,
 			description: req.body.description,
 			responsible: req.body.responsible,
-			priority: req.body.priority
+			priority: req.body.priority, 
+			user: req.user.email
 		}
 
 		var _t = new Ticket(ticket);
@@ -38,6 +39,9 @@ function show(req, res) {
 	} else {
 		var findTicket = new Promise(function (resolve, reject) {
 			Ticket.findById(req.params.id, function (err, result) {
+
+				
+
 				if (err) {
 					reject(500);
 				} else {
@@ -51,6 +55,7 @@ function show(req, res) {
 		})
 
 		findTicket.then(function (ticket) {
+			
 			res.status(200).render('ticket/show', {title:`Ticket no:${ticket._id}`, ticket});
 		}, function (error) {
 			switch (error) {
@@ -198,6 +203,26 @@ function list(req, res) {
 		}
 	})
 }
+ exports.newComment = async (req, res) => {
+	
+    var ticket_id = req.body._id;
+    
+    
+    var comment = req.body.comment;
+    
+    var new_comment = {"user":req.user.email,"comment":comment};
+  
+    
+    await Ticket.findOneAndUpdate({"_id":ticket_id},{$push:{"comments" : new_comment}})
+    .exec()
+		.then(() => {
+		res.send("Updated")
+	})
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ error: err });
+    });
+  }
 
 exports.create = create;
 exports.createForm = createForm;

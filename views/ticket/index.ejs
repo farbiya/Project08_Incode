@@ -8,18 +8,28 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="idTicket">Ticket ID</th>
+                        
+                        <th class="titleTicket">Ticket Title</th>
                         <th class="showTicket">View Ticket</th>
                         <th class="editTicket">Edit Ticket</th>
+                        <th class="statusTicket">Ticket Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% for (index = 0; index < tickets.length; index++) { %>
                         <% const ticket = tickets[index] %>
                         <tr key={index}>
-                            <td><%= ticket._id %></td>
+                            
+                            <td><%= ticket.title %></td>
                             <td><a href="/ticket/<%= ticket._id %>" class="nav-link">View</a></td>
                             <td><a href="/ticket/<%= ticket._id %>/edit" class="nav-link">Edit</a></td>
+                            <td><% if(ticket.completed) { %>
+                                <i class="fa fa-check-circle"></i> Resolved
+                                 <% } else { %>
+                                    <i class="fa fa-spinner fa-pulse "></i>In progress
+
+                                    <% } %>
+                            </td>
                         </tr>
                     <% } %>
                 </tbody>

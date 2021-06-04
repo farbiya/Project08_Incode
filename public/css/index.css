@@ -1,12 +1,17 @@
 table {
 	margin: auto;
-	border: 2px solid #000;
-	border-collapse: collapse;
+	
+	font-size: medium;
+    line-height: 1.5em;
+    text-transform:none;
+    font-weight: 200;
+    width:100%;
+   
+  
+   
 }
 
-thead > tr > th {
-	border-bottom: 2px solid #000;
-}
+
 
 .idTicket {
 	width: 300px;
@@ -18,4 +23,12 @@ thead > tr > th {
 
 td, th {
 	text-align: center;
+}
+.fa-check-circle{
+	color: green;
+	font-size: 2em;
+}
+.fa-spinner{
+	color:red;
+	font-size: 2em;
 }
