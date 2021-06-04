@@ -9,11 +9,17 @@ var userSchema = mongoose.Schema({
 		trim: true,
 		unique: true,
 		required: true
+
 	},
 	password: {
         type: String,
         required: true
     }
+	Approved: {
+        type: String,
+        default: 'Admin',
+        enum: ["user", "admin"]
+       },
 },{ timestamps: { createdAt: 'created_at' }})
 
 
