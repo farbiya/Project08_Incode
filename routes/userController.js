@@ -8,7 +8,7 @@ router.get("/signup", account.signupForm);
 router.post("/signup", account.signup);
 router.get("/signout", account.signout);
 
-router.get("/adminPage", account.adminPage);
-router.post("/adminPage", account.approveTicket);
+//router.get("/adminPage", account.adminPage);
+//router.post("/adminPage", account.approveTicket);
 
 module.exports = router;

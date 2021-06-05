@@ -2,39 +2,25 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 
-var userSchema = mongoose.Schema(
-  {
-    email: {
-      type: String,
-      lowercase: true,
-      trim: true,
-      unique: true,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    userType: {
-      desc: "user roles.",
-      trim: true,
-      type: String,
-      enum: ["Admin", "User"],
-      default: "Admin",
-      required: true,
-    },
+var userSchema = mongoose.Schema({
+  email: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    unique: true,
+    required: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
+  hash_password: {
+    type: string,
+  },
+});
 
-  { timestamps: { createdAt: "created_at" } }
-);
-
-userSchema.methods = {
-  authenticate: function (password) {
-    return password === this.password;
-  },
-  getToken: function () {
-    return jwt.sign({ email: this.email }, config.secret, { expiresIn: "1d" });
-  },
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.hash_password);
 };
 
 module.exports = mongoose.model("User", userSchema);

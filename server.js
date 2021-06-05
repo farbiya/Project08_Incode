@@ -68,3 +68,16 @@ app.use("/ticket", ticketRouter);
 //Définition et mise en place du port d'écoute
 var port = 8000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
+/*
+app.use(function(req, res, next) {
+  if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+    jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function(err, decode) {
+      if (err) req.user = undefined;
+      req.user = decode;
+      next();
+    });
+  } else {
+    req.user = undefined;
+    next();
+  }
+});*/
