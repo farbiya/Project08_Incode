@@ -5,9 +5,13 @@
         <%- include('../shared/navbar', {}) %>
         <div  class="details">
             <h1>Ticket List</h1>
+            <select id="assignedSelect">
+                <option value=true>Assigned</option>
+                <option value=false>Not Assigned</option>
+            </select>
         </div>
         <div>
-            <table>
+            <table id="searchTable">
                 <thead>
                     <tr>
                         

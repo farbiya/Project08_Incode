@@ -17,11 +17,21 @@
                     <label>Description: </label>
                     <textarea  type="text" class="form-control" name="description"></textarea>
                 </div>
+                <% if (role === "admin") { %>
+                    <div class="form-group">
+                        <label  >Responsible:</label>
+                        <select name="responsible" id="responsible"  class="form-control">
+                            <option value="" selected>Choose user</option>
+                            <% for (var i=0;i<users.length;i++) {%>
+                            <option value="<%-users[i].email%>"><%- users[i].email %></option>
+                            <% } %>
+                            </select>
+                           
+                    </div>
+                <%}%>
 
-                <div class="form-group">
-                    <label>Responsible: </label>
-                    <input type="text" class="form-control" name="responsible" />
-                </div>
+
+               
 
                 <div class="form-group">
                     <label>Priority: </label>

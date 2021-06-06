@@ -14,7 +14,7 @@ var ticketSchema = mongoose.Schema({
    
 	responsible: {
         type: String,
-        required: true
+        required: false
     },
     priority: {
         type: String,

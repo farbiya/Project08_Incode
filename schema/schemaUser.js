@@ -13,8 +13,14 @@ var userSchema = mongoose.Schema({
 	password: {
         type: String,
         required: true
-    }
-},{ timestamps: { createdAt: 'created_at' }})
+	},
+	role: {
+        type: String,
+        default: 'user',
+        enum: ["user", "admin"]
+       }
+},
+	{ timestamps: { createdAt: 'created_at' } })
 
 
 userSchema.methods = {

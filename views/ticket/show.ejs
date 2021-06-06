@@ -8,7 +8,7 @@
             <h2>Id : <%= ticket.id %></h2>
             <h2>Title : <%= ticket.title %></h2>
             <h2>Description : <%= ticket.description %></h2>
-            <h2>Responsible : <%= ticket.responsible %></h2>
+            <h2>Responsible : <%= ticket.responsible !== undefined ? ticket.responsible : "Not yet" %></h2>
             <h2>Priority : <%= ticket.priority %></h2>
             <h2>Status : <%= ticket.completed ? "Resolved" : "In progress" %></h2>
             <h2>Created By : <%= ticket.user %></h2>

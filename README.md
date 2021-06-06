@@ -10,3 +10,11 @@ You need to create your first user in order to be able to connect to the interfa
 ## Group Members
 1.Bhavani
 2.Farbiya
+
+
+## Features
+1.Password Encryption-Bhavani
+2.Admin Page-Bhavani
+3.comments-Farbiya
+4.status in ticket list-Farbiya
+5.ticket creator-Farbiya

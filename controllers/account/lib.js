@@ -8,9 +8,11 @@ function signup(req, res) {
             "text": "Invalid request"
         })
     } else {
+        var role = "user";
         var user = {
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            role:role
         }
         var findUser = new Promise(function (resolve, reject) {
             User.findOne({
@@ -92,7 +94,9 @@ async  function login(req, res) {
                 
                 if (user.authenticate(hashedPassword)) {
                     req.session.token = user.getToken();
-                    res.redirect('../../ticket/');
+                    
+                        res.redirect('../../ticket/');
+                    
                 }
                 else{
                     res.status(401).json({
